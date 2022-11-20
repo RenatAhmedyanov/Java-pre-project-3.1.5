@@ -1,0 +1,110 @@
+body{
+    background: #F8F9FA;
+}
+
+#side_nav{
+    background: white;
+    min-width: 230px;
+    max-width: 230px;
+    min-height: 100vh;
+    color: white;
+}
+.content{
+    min-height: 100vh;
+    width: 100%;
+    color: white;
+}
+.sidebar li.active a{
+    background: #007BFF;
+    border-radius: 4px;
+    color:white;
+}
+.sidebar li.active:hover a:hover{
+    background: #007BFF;
+    color:white;
+}
+
+#top_nav{
+    background: transparent;
+    min-height: 40px;
+    max-height: 40px;
+}
+.content{
+    height: 100%;
+}
+.navbar li.active{
+    background: white;
+    border-radius: 4px;
+    outline: #D8D8D8;
+    outline: solid;
+    outline-width: thin;
+}
+.navbar li.active a, .sidebar li.active a:hover{
+    color: #343A40;
+}
+.sidebar li a{
+    color: #0090FF;
+}
+
+#myTabControl{
+    background: white;
+    border-radius: 4px;
+    box-shadow:0px 0px 0px 1px #D8D8D8 inset;
+    margin-bottom:20px;
+}
+
+.button {
+    border: none;
+    color: white;
+    border-radius: 4px;
+    text-align: center;
+    text-decoration-color: white;
+    display: inline-block;
+    font-size: 16px;
+
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+.button1 {
+    background-color: #17A2B8;
+    color: white;
+    border: 2px solid #17A2B8;
+}
+
+.button1:hover {
+    background-color: #1CC8E3;
+    border: 2px solid #1CC8E3;
+    color: white;
+}
+.button2 {
+    background-color: #DC3545;
+    color: white;
+    border: 2px solid #DC3545;
+}
+
+.button2:hover {
+    background-color: #FF3D50;
+    border: 2px solid #FF3D50;
+    color: white;
+}
+.button3{
+    width: 230px;
+    height: 40px;
+    background-color: transparent;
+    color: #007BFF;
+    text-align: start;
+}
+.button3.active{
+    width: 230px;
+    height: 40px;
+    background-color: #007BFF;
+    color: white;
+    text-align: start;
+}
+
+.frm:valid {
+    background-color: #FFEB99;
+    background-position: right calc(0.375em + 0.1875rem) center;
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+

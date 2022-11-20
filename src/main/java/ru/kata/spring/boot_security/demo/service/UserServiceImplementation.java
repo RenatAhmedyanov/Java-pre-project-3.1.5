@@ -1,9 +1,7 @@
 package ru.kata.spring.boot_security.demo.service;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.kata.spring.boot_security.demo.dao.UserDAO;
 import ru.kata.spring.boot_security.demo.models.Role;
@@ -18,11 +16,12 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class UserServiceImplementation implements UserService {
     private final UserDAO userDAO;
-    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImplementation(UserDAO userDAO) {
-        this.userDAO = userDAO;;
+    public UserServiceImplementation(UserDAO userDAO, PasswordEncoder passwordEncoder) {
+        this.userDAO = userDAO;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
@@ -64,9 +63,5 @@ public class UserServiceImplementation implements UserService {
     @Transactional
     public void deleteUser(int id) {
         userDAO.deleteUser(id);
-    }
-    @Bean
-    public PasswordEncoder getPasswordEncoder() {
-        return passwordEncoder;
     }
 }

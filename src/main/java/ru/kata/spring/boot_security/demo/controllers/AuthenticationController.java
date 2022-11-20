@@ -46,19 +46,19 @@ public class AuthenticationController {
         return "redirect:/authentication/login";
     }
 
-    @PostConstruct
-    public void loadUserTableTest() {
-        userService.addUser(new User("admin", "admin@mail.ru", "admin"));
-        userService.addUser(new User("Homer", "homer@mail.ru", "homer"));
-        userService.addUser(new User("Marge", "marge@mail.ru", "marge"));
-
-        userService.addUser(new User("user", "user@mail.ru", "user"));
-        userService.addUser(new User("Bart", "bart@mail.ru", "bart"));
-        userService.addUser(new User("Lisa", "lisa@mail.ru", "lisa"));
-
-        userService.giveAdminRights((User)userService.loadUserByUsername("admin"));
-        userService.giveAdminRights((User)userService.loadUserByUsername("Homer"));
-        userService.giveAdminRights((User)userService.loadUserByUsername("Marge"));
-    }
+//    @PostConstruct
+//    public void loadUserTableTest() {
+//        userService.addUser(new User("admin", "admin@mail.ru", "admin"));
+//        userService.addUser(new User("Homer", "homer@mail.ru", "homer"));
+//        userService.addUser(new User("Marge", "marge@mail.ru", "marge"));
+//
+//        userService.addUser(new User("user", "user@mail.ru", "user"));
+//        userService.addUser(new User("Bart", "bart@mail.ru", "bart"));
+//        userService.addUser(new User("Lisa", "lisa@mail.ru", "lisa"));
+//
+//        userService.giveAdminRights((User)userService.loadUserByUsername("admin"));
+//        userService.giveAdminRights((User)userService.loadUserByUsername("Homer"));
+//        userService.giveAdminRights((User)userService.loadUserByUsername("Marge"));
+//    }
 
 }

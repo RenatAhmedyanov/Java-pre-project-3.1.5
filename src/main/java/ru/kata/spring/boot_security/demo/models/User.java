@@ -85,6 +85,16 @@ public class User implements UserDetails {
         return roles;
     }
 
+//    public String getRoles() {
+//        if (roles.contains(Role.ROLE_ADMIN)) {
+//            return "ADMIN USER";
+//        } else if (roles.contains(Role.ROLE_USER)) {
+//            return "USER";
+//        } else {
+//            return "GUEST";
+//        }
+//    }
+
     public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
@@ -116,5 +126,16 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", roles=" + roles +
+                '}';
     }
 }
