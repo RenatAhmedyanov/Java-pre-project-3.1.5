@@ -84,12 +84,6 @@ public class User implements UserDetails {
         return roles;
     }
 
-//    public String getRolesToString(){
-//        StringBuilder sb = new StringBuilder();
-//        roles.forEach(x -> sb.append(x.toString().replace("ROLE_", "") + ", "));
-//        return sb.delete(sb.length() - 2, sb.length()-1).toString();
-//    }
-
     public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
