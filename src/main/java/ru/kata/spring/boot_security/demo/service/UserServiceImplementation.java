@@ -56,7 +56,7 @@ public class UserServiceImplementation implements UserService {
         users.forEach(x -> x.addRoles(userDAO.findRoleByRoleName("ROLE_USER")));
         users.get(0).addRoles(userDAO.findRoleByRoleName("ROLE_ADMIN"));
         users.get(2).addRoles(userDAO.findRoleByRoleName("ROLE_ADMIN"));
-        users.get(3).addRoles(userDAO.findRoleByRoleName("ROLE_USER"));
+        users.get(3).addRoles(userDAO.findRoleByRoleName("ROLE_ADMIN"));
         users.forEach(userDAO::addUser);
     }
 
