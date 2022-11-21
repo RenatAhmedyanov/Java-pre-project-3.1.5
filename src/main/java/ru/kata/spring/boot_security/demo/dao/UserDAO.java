@@ -14,6 +14,9 @@ public interface UserDAO {
     Optional<User> findUserByUsername(String username);
     Optional<User> findUserByEmail(String email);
     List<User> findAllUsers();
+    void createAdminRole();
+    void createUserRole();
     void updateUser(User updatedUser);
     void deleteUser(int id);
+    void deleteTables();
 }

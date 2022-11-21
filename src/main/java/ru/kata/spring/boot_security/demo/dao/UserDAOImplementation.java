@@ -4,9 +4,7 @@ import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,5 +52,20 @@ public class UserDAOImplementation implements UserDAO {
     public List<Role> getRolesList() {
         TypedQuery<Role> findAllQuery = entityManager.createQuery("SELECT role FROM Role role", Role.class);
         return findAllQuery.getResultList();
+    }
+
+    public void deleteTables(){
+        Query deleteQueryRoles = entityManager.createQuery("DELETE FROM Role");
+        Query deleteQueryUsers = entityManager.createQuery("DELETE FROM User");
+        deleteQueryUsers.executeUpdate();
+        deleteQueryRoles.executeUpdate();
+    }
+
+    public void createAdminRole() {
+        entityManager.persist(new Role("ROLE_ADMIN"));
+    }
+
+    public void createUserRole() {
+        entityManager.persist(new Role("ROLE_USER"));
     }
 }

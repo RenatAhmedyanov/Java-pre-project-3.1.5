@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserService extends UserDetailsService {
-    void firstInit();
+    void populateDatabase();
     void addUser(User user);
     void giveAdminRights(User user);
     User findUserById(Integer id);
@@ -16,8 +16,7 @@ public interface UserService extends UserDetailsService {
     List<User> findAllUsers();
     void updateUser(User updatedUser);
     void deleteUser(int id);
-
     Role findRoleByRoleName(String roleName);
-
     List<Role> getRolesList();
+    void deleteTables();
 }

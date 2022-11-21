@@ -13,6 +13,7 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 import ru.kata.spring.boot_security.demo.util.UserValidator;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.validation.Valid;
 
 @Controller
@@ -47,19 +48,17 @@ public class AuthenticationController {
         return "redirect:/authentication/login";
     }
 
-//    @Transactional
-//    @PostConstruct
-//    public void loadUserTableTest() {
-//        userService.firstInit();
-//        userService.addUser(new User("Homer", "homer@mail.ru", "homer"));
-//        userService.addUser(new User("Marge", "marge@mail.ru", "marge"));
-//
-//        userService.addUser(new User("user", "user@mail.ru", "user"));
-//        userService.addUser(new User("Bart", "bart@mail.ru", "bart"));
-//        userService.addUser(new User("Lisa", "lisa@mail.ru", "lisa"));
-//
-//        userService.giveAdminRights((User)userService.loadUserByUsername("Homer"));
-//        userService.giveAdminRights((User)userService.loadUserByUsername("Marge"));
-//    }
+    @Transactional
+    @PostConstruct
+    public void populateDatabase() {
+        userService.populateDatabase();
+    }
+
+    @Transactional
+    @PreDestroy
+    public void deleteTables() {
+        userService.deleteTables();
+    }
+
 
 }
