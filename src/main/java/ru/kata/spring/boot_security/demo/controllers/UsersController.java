@@ -26,6 +26,6 @@ public class UsersController {
         User signedUser = (User) authentication.getPrincipal();
         model.addAttribute("user", new User());
         model.addAttribute("signedUser", signedUser);;
-        return "/BSDEMO/user_panel";
+        return "/views/user_panel";
     }
 }

@@ -2,7 +2,6 @@ package ru.kata.spring.boot_security.demo.controllers;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.validation.BindingResult;
 import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
@@ -10,10 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.util.UserValidator;
-
-import javax.validation.Valid;
-import java.sql.Array;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,7 +32,7 @@ public class AdminsController {
         model.addAttribute("usersList", userService.findAllUsers());
         model.addAttribute("role_user", userService.findRoleByRoleName("ROLE_USER"));
         model.addAttribute("role_admin", userService.findRoleByRoleName("ROLE_ADMIN"));
-        return "/BSDEMO/admin_panel";
+        return "/views/admin_panel";
     }
 
     @GetMapping(value = "/get/{id}")
