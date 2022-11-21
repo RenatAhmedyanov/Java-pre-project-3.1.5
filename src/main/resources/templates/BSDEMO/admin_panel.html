@@ -115,27 +115,27 @@
                               </button>
                             </div>
                             <div class="modal-body">
-                                </br>
-                                <div class="form-group">
-                                  <label class="d-flex justify-content-center" for="idE" style="font-weight: bold;">ID</label>
-                                  <input type="text" readonly class="form-control" id="idE" name="id" style="background-color: #E9ECEF">
-                                </div>
-                                </br>
-                                <div class="form-group">
-                                  <label class="d-flex justify-content-center" for="usernameE" style="font-weight: bold">Username</label>
-                                  <input type="text" class="form-control" id="usernameE" name="username">
-                                </div>
-                                </br>
-                                <div class="form-group">
-                                  <label class="d-flex justify-content-center" for="emailE" style="font-weight: bold">Email</label>
-                                  <input type="email" class="form-control" id="emailE" name="email">
-                                </div>
-                                </br>
-                                <div class="form-group">
-                                  <label class="d-flex justify-content-center" for="passwordE" style="font-weight: bold">Password</label>
-                                  <input type="password" class="form-control" id="passwordE" name="password" placeholder="password">
-                                </div>
-                                </br>
+                              </br>
+                              <div class="form-group">
+                                <label class="d-flex justify-content-center" for="idE" style="font-weight: bold;">ID</label>
+                                <input type="text" readonly class="form-control" id="idE" name="id" style="background-color: #E9ECEF">
+                              </div>
+                              </br>
+                              <div class="form-group">
+                                <label class="d-flex justify-content-center" for="usernameE" style="font-weight: bold">Username</label>
+                                <input type="text" class="form-control" id="usernameE" name="username">
+                              </div>
+                              </br>
+                              <div class="form-group">
+                                <label class="d-flex justify-content-center" for="emailE" style="font-weight: bold">Email</label>
+                                <input type="email" class="form-control" id="emailE" name="email">
+                              </div>
+                              </br>
+                              <div class="form-group">
+                                <label class="d-flex justify-content-center" for="passwordE" style="font-weight: bold">Password</label>
+                                <input type="password" class="form-control" id="passwordE" name="password" placeholder="password">
+                              </div>
+                              </br>
                               <div class="form-group">
                                 <label class="d-flex justify-content-center" for="roleE" style="font-weight: bold">Role</label>
                                 <select multiple="multiple" th:name="roles" class="form-control" id="roleE" style="height: 60px;">
@@ -211,33 +211,33 @@
 
 
                     <!--New User Form-->
-                    <form class="container" style="width: 400px">
+                    <form class="container" th:method="POST" th:action="@{/admin/new}" th:object="${user}" style="width: 400px">
                       </br>
                       <div class="form-group">
                         <label class="d-flex justify-content-center" for="usernameN" style="font-weight: bold">Username</label>
-                        <input type="text" class="form-control frm is-valid" id="usernameN" placeholder="enter username">
+                        <input type="text" class="form-control frm is-valid" id="usernameN" th:field="*{username}" placeholder="enter username">
                       </div>
                       </br>
                       <div class="form-group">
                         <label class="d-flex justify-content-center" for="emailN" style="font-weight: bold">Email</label>
-                        <input type="email" class="form-control" id="emailN" placeholder="enter email">
+                        <input type="email" class="form-control" id="emailN" th:field="*{email}" placeholder="enter email">
                       </div>
                       </br>
                       <div class="form-group">
                         <label class="d-flex justify-content-center" for="passwordN" style="font-weight: bold">Password</label>
-                        <input type="password" class="form-control" id="passwordN" placeholder="enter password">
+                        <input type="password" class="form-control" id="passwordN" th:field="*{password}" placeholder="enter password">
                       </div>
                       </br>
                       <div class="form-group">
                         <label class="d-flex justify-content-center" for="roleN" style="font-weight: bold">Role</label>
-                        <select multiple class="form-control" id="roleN" style="height: 60px">
-                          <option>USER</option>
-                          <option>ADMIN</option>
+                        <select multiple="multiple" th:name="roles" class="form-control" id="roleN" style="height: 60px;">
+                          <option th:value="${role_user}">USER</option>
+                          <option th:value="${role_admin}">ADMIN</option>
                         </select>
                       </div>
                       </br>
                       <div class="button d-flex justify-content-center">
-                        <button type="button" class="btn btn-success">Add new user</button>
+                        <button type="submit" class="btn btn-success">Add new user</button>
                       </div>
                       </br>
                     </form>

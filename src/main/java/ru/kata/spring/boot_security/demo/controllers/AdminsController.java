@@ -37,50 +37,28 @@ public class AdminsController {
         return "/BSDEMO/admin_panel";
     }
 
-
     @GetMapping(value = "/get/{id}")
     @ResponseBody
     public String getUser(@PathVariable("id") Integer id, Model model) {
         model.addAttribute("user", userService.findUserById(id));
         return "redirect:/admin";
     }
-//
-//    @GetMapping("/get/{id}")
-//    @ResponseBody
-//    public User getUser(@PathVariable("id") Integer id) {
-//        System.out.println(userService.findUserById(id).toString());
-//        return userService.findUserById(id);
+
+//    @GetMapping("/new")
+//    public String newUser(@ModelAttribute("user") User user) {
+//        return "admin/new";
 //    }
 
-    @GetMapping("/new")
-    public String newUser(@ModelAttribute("user") User user) {
-        return "admin/new";
-    }
-
-    @PostMapping()
-    public String addUser(User user) {
-        userService.addUser(user);
+    @PostMapping(value = "/new")
+    public String addUser(@ModelAttribute("user") User newUser, @RequestParam(value = "roles", required = false) String[] roles) {
+        Set<Role> updatedRoles = new HashSet<>();
+        for (String role : roles) {
+            updatedRoles.add(userService.findRoleByRoleName(role));
+        }
+        newUser.setRoles(updatedRoles);
+        userService.addUser(newUser);
         return "redirect:/admin";
     }
-
-    @GetMapping(value = "/{id}/edit")
-    public String editUser(Model model, @PathVariable("id") Integer id) {
-        model.addAttribute("existingRoles", userService.getRolesList());
-        model.addAttribute("user", userService.findUserById(id));
-        return "/admin/edit";
-    }
-
-
-//    @PatchMapping("/{id}")
-//    public String update(@ModelAttribute("user") User updatedUser, @RequestParam("roles") String[] roles, @PathVariable("id") Integer id) {
-//        Set<Role> updatedRoles = new HashSet<>();
-//        for (String role : roles) {
-//            updatedRoles.add(userService.findRoleByRoleName(role));
-//        }
-//        updatedUser.setRoles(updatedRoles);
-//        userService.updateUser(updatedUser);
-//        return "redirect:/admin";
-//    }
 
     @PatchMapping("/edit")
     public String update(@ModelAttribute("user") User updatedUser, @RequestParam(value = "roles", required = false) String[] roles) {
@@ -93,14 +71,8 @@ public class AdminsController {
         return "redirect:/admin";
     }
 
-    @PatchMapping("/{id}/admin")
-    public String giveAdminRights(@ModelAttribute("user") User user, @PathVariable("id") Integer id) {
-        userService.giveAdminRights(userService.findUserById(id));
-        return "redirect:/admin";
-    }
-
     @GetMapping(value = "/delete/{id}")
-    public String deleteUser(@PathVariable Integer id, Model model) {
+    public String deleteUser(@PathVariable Integer id) {
         userService.deleteUser(id);
         return "redirect:/admin";
     }
