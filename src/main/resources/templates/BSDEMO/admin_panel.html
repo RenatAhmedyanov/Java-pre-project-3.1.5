@@ -93,7 +93,7 @@
                             <td th:text="${user.getUsername()}">username</td>
                             <td th:text="${user.getEmail()}">email</td>
                             <td th:text="${user.getRolesToString()}">role</td>
-                            <td><button th:href="@{/admin/get/{id}(id=${user.getId()})}" class="button button1" th:data-id="${user.getId()}" th:data-username="${user.getUsername()}" th:data-email="${user.getEmail()}" th:data-roles="${user.getRoles()}" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button></td>
+                            <td><button class="button button1" th:data-id="${user.getId()}" th:data-username="${user.getUsername()}" th:data-email="${user.getEmail()}" th:data-roles="${user.getRoles()}" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button></td>
                             <td><button th:href="@{/admin/delete/{id}(id=${user.getId()})}"  class="button button2" th:data-id="${user.getId()}" th:data-username="${user.getUsername()}" th:data-email="${user.getEmail()}" th:data-roles="${user.getRoles()}" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button></td>
                           </tr></th:block>
                         </tbody>
@@ -154,6 +154,7 @@
                       </div>
                       <!-- Edit User Modal -->
 
+
                       <!-- Delete User Modal -->
                       <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -199,8 +200,6 @@
                         </div>
                       </div>
                       <!-- Delete User Modal -->
-
-
 
 
                     </div>
@@ -275,7 +274,7 @@
                           <td th:text="${admin.getId()}">id</td>
                           <td th:text="${admin.getUsername()}">username</td>
                           <td th:text="${admin.getEmail()}">email</td>
-                          <td th:text="${admin.getRoles()}">role</td>
+                          <td th:text="${admin.getRolesToString()}">role</td>
                         </tr></th:block>
                         </tbody>
                       </table>
@@ -298,8 +297,7 @@
 <!--main-->
 
 <script>
-  $('.button2').click(function (event) {
-    event.preventDefault();
+  $('.button2').click(function () {
     var $modal = $('#deleteModal')
     var $btn = $(this);
     $('#idD').val($btn.attr('data-id'));
@@ -317,7 +315,7 @@
       $('#selectAdmin').attr('selected', false)
     }
     $('#deleteConfirm').attr('href', $btn.attr('href'));
-  })
+  });
 </script>
 
 <script>
@@ -338,7 +336,6 @@
     } else {
       $('#selectAdminE').attr('selected', false)
     }
-    $('#editConfirm').attr('href', $btn.attr('action'));
   });
 </script>
 
