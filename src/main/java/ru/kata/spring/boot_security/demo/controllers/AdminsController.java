@@ -2,6 +2,7 @@ package ru.kata.spring.boot_security.demo.controllers;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.BindingResult;
 import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
@@ -9,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.util.UserValidator;
 
+import javax.validation.Valid;
 import java.sql.Array;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,7 +20,7 @@ import java.util.Set;
 @Controller
 @RequestMapping("/admin")
 public class AdminsController {
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public AdminsController(UserService userService) {
@@ -27,10 +30,10 @@ public class AdminsController {
     @GetMapping
     public String adminPage(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User admin = (User) authentication.getPrincipal();
+        User signedUser = (User) authentication.getPrincipal();
         model.addAttribute("user", new User());
         model.addAttribute("existingRoles", userService.getRolesList());
-        model.addAttribute("admin", admin);
+        model.addAttribute("signedUser", signedUser);
         model.addAttribute("usersList", userService.findAllUsers());
         model.addAttribute("role_user", userService.findRoleByRoleName("ROLE_USER"));
         model.addAttribute("role_admin", userService.findRoleByRoleName("ROLE_ADMIN"));
@@ -43,11 +46,6 @@ public class AdminsController {
         model.addAttribute("user", userService.findUserById(id));
         return "redirect:/admin";
     }
-
-//    @GetMapping("/new")
-//    public String newUser(@ModelAttribute("user") User user) {
-//        return "admin/new";
-//    }
 
     @PostMapping(value = "/new")
     public String addUser(@ModelAttribute("user") User newUser, @RequestParam(value = "roles", required = false) String[] roles) {

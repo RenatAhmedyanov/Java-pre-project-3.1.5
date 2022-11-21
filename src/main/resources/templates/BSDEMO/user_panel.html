@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous"><title>admin panel</title>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <link type="text/css" rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!--heading-->
+<section id="intro">
+  <div class="container-fluid" style="background-color: #343A40">
+    <div class="row justify-content-between">
+      <div class="px-3 py-2 col-md-6">
+        <strong class="align-content-center" style="background-color: transparent; color: rgb(251,251,251); font-size: 22px" th:text="${signedUser.getEmail()}"></strong>
+        <span class="align-content-center" style="background-color: transparent; color: rgb(251,251,251); font-size: 22px">with roles: </span>
+        <span class="align-content-center" style="background-color: transparent; color: rgb(251,251,251); font-size: 22px" th:text="${signedUser.getRolesToString()}"></span>
+      </div>
+      <form class="col-md-1" th:action="@{/logout}" th:method = "POST">
+        <input type = "submit" class="d-xl-flex p-2 justify-content-end" style="border: transparent; background-color: transparent; font-size: 20px; color: rgb(154,149,135);" value = "Logout" />
+      </form>
+    </div>
+  </div>
+</section>
+<!--heading-->
+
+<!--main-->
+<section id="main">
+  <div class="main-container d-flex">
+
+    <!--navigation sidebar-->
+    <div class="sidebar" id="side_nav">
+      <div class="header-box py-2"></div>
+      <ul class="nav">
+        <li class="nav-pills active">
+          <button class="button button3 px-3 py-2 d-block active" data-bs-toggle="tab" id="user-panel" type="button" data-bs-target="#userpanel"
+                  role="tab" aria-controls="user-panel" aria-selected="true">User</button>
+        </li>
+      </ul>
+    </div>
+    <!--/navigation sidebar-->
+
+    <!--User Info container-->
+    <div class="tab-content" style="width: 100vw;">
+
+      <!--User Panel-->
+      <div class="tab-pane show active" role="tabpanel" id="userpanel" aria-labelledby="user">
+        <div class="container-fluid" style="background-color: transparent">
+          <div class="row justify-content-start" style="background-color: transparent; height: 100px;">
+            <h1 class="px-5 py-4" style="font-size: 46px;">User information-page</h1>
+          </div>
+          <div class="row" style="background-color: transparent">
+            <div class="container" style="padding-right: 50px; padding-left: 50px ">
+              <header class="px-2 py-1 " style="background-color: #F8F9FA; box-shadow: 0px 0px 0px 1px #D8D8D8 inset;
+                      border-top-left-radius: 4px; border-top-right-radius: 4px"><h1 style="font-size: 20px; padding-top: 5px">About user</h1></header>
+              <div class="container-fluid" style="padding: 20px; background-color: white; box-shadow: 0px 0px 0px 1px #D8D8D8 inset">
+                <div class="row justify-content-center">
+                  <div class="col-md-10">
+                    <table class="table table-striped" style="box-shadow: 0px 1px 0px #D8D8D8 inset;">
+                      <h1 style="font-size: 4px"></h1>
+                      <thead>
+                      <tr>
+                        <th scope="col">ID</th><th scope="col">Login</th><th scope="col">Email</th><th scope="col">Role</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <th:block><tr>
+                        <td th:text="${signedUser.getId()}">id</td>
+                        <td th:text="${signedUser.getUsername()}">username</td>
+                        <td th:text="${signedUser.getEmail()}">email</td>
+                        <td th:text="${signedUser.getRolesToString()}">role</td>
+                      </tr></th:block>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--/User Panel-->
+
+      <!--User container-->
+
+    </div>
+  </div>
+</section>
+<!--main-->
+
+</body>
+</html>

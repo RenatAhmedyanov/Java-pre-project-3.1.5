@@ -21,10 +21,11 @@ public class UsersController {
     }
 
     @GetMapping
-    public String userHomePage(Model model) {
+    public String adminPage(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) authentication.getPrincipal();
-        model.addAttribute("user", user);
-        return "user";
+        User signedUser = (User) authentication.getPrincipal();
+        model.addAttribute("user", new User());
+        model.addAttribute("signedUser", signedUser);;
+        return "/BSDEMO/user_panel";
     }
 }

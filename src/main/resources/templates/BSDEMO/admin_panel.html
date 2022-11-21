@@ -14,12 +14,11 @@
   <section id="intro">
     <div class="container-fluid" style="background-color: #343A40">
       <div class="row justify-content-between">
-        <div class="col-md-6">
-          <div class="p-2 align-content-center" style="background-color: transparent; color: rgb(251,251,251); font-size: 22px">admin@mail.ru with roles: ADMIN USER</div>
+        <div class="px-3 py-2 col-md-6">
+          <strong class="align-content-center" style="background-color: transparent; color: rgb(251,251,251); font-size: 22px" th:text="${signedUser.getEmail()}"></strong>
+          <span class="align-content-center" style="background-color: transparent; color: rgb(251,251,251); font-size: 22px">with roles: </span>
+          <span class="align-content-center" style="background-color: transparent; color: rgb(251,251,251); font-size: 22px" th:text="${signedUser.getRolesToString()}"></span>
         </div>
-<!--        <div class="col-md-1">-->
-<!--          <div class="d-xl-flex p-2 justify-content-end" style="background-color: transparent; font-size: 20px; color: rgb(154,149,135);" >Logout</div>-->
-<!--        </div>-->
         <form class="col-md-1" th:action="@{/logout}" th:method = "POST">
           <input type = "submit" class="d-xl-flex p-2 justify-content-end" style="border: transparent; background-color: transparent; font-size: 20px; color: rgb(154,149,135);" value = "Logout" />
         </form>
@@ -31,7 +30,6 @@
 <!--main-->
     <section id="main">
       <div class="main-container d-flex">
-
 
         <!--navigation sidebar-->
         <div class="sidebar" id="side_nav">
@@ -47,12 +45,10 @@
             </li>
           </ul>
           </div>
-        <!--navigation sidebar-->
-
+        <!--/navigation sidebar-->
 
         <!--Admin Panel/User Info container-->
         <div class="tab-content" style="width: 100vw;">
-
 
           <!--Admin Panel-->
           <div class="tab-pane show active" role="tabpanel" id="adminpanel" aria-labelledby="admin">
@@ -78,7 +74,6 @@
                     </div>
                     <div class="container" style="background-color: white">
 
-
                       <!--User Table-->
                       <table class="table table-striped" style="box-shadow: 0px 1px 0px #D8D8D8 inset;">
                         <h1 style="font-size: 4px"></h1>
@@ -98,8 +93,7 @@
                           </tr></th:block>
                         </tbody>
                       </table>
-                      <!--User Table-->
-
+                      <!--/User Table-->
 
                       <!-- Edit User Modal -->
                       <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -152,8 +146,7 @@
                         </div>
                         </form>
                       </div>
-                      <!-- Edit User Modal -->
-
+                      <!-- /Edit User Modal -->
 
                       <!-- Delete User Modal -->
                       <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -199,8 +192,7 @@
                           </div>
                         </div>
                       </div>
-                      <!-- Delete User Modal -->
-
+                      <!-- /Delete User Modal -->
 
                     </div>
                   </div>
@@ -209,28 +201,30 @@
                       <h1 class="d-flex align-items-xl-center" style="font-size: 20px; background-color: #F8F9FA; box-shadow: 0px 0px 0px 1px #D8D8D8 inset;">Add new user</h1>
                     </div>
 
-
                     <!--New User Form-->
-                    <form class="container" th:method="POST" th:action="@{/admin/new}" th:object="${user}" style="width: 400px">
+                    <form class="container need-validation" th:method="POST" th:action="@{/admin/new}" th:object="${user}" style="width: 400px">
                       </br>
                       <div class="form-group">
                         <label class="d-flex justify-content-center" for="usernameN" style="font-weight: bold">Username</label>
-                        <input type="text" class="form-control frm is-valid" id="usernameN" th:field="*{username}" placeholder="enter username">
+                        <input type="text" class="form-control" id="usernameN" th:field="*{username}" placeholder="enter username" required>
+                        <div class="invalid-feedback" th:if ="${#fields.hasErrors('username')}" th:errors="*{username}" style="color:red">invalid username</div>
                       </div>
                       </br>
                       <div class="form-group">
                         <label class="d-flex justify-content-center" for="emailN" style="font-weight: bold">Email</label>
-                        <input type="email" class="form-control" id="emailN" th:field="*{email}" placeholder="enter email">
+                        <input type="email" class="form-control" id="emailN" th:field="*{email}" placeholder="enter email" required>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:red">invalid email</div>
                       </div>
                       </br>
                       <div class="form-group">
                         <label class="d-flex justify-content-center" for="passwordN" style="font-weight: bold">Password</label>
-                        <input type="password" class="form-control" id="passwordN" th:field="*{password}" placeholder="enter password">
+                        <input type="password" class="form-control" id="passwordN" th:field="*{password}" placeholder="enter password" required>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color:red">invalid password</div>
                       </div>
                       </br>
                       <div class="form-group">
                         <label class="d-flex justify-content-center" for="roleN" style="font-weight: bold">Role</label>
-                        <select multiple="multiple" th:name="roles" class="form-control" id="roleN" style="height: 60px;">
+                        <select multiple="multiple" th:name="roles" class="form-control" id="roleN" style="height: 60px;" required>
                           <option th:value="${role_user}">USER</option>
                           <option th:value="${role_admin}">ADMIN</option>
                         </select>
@@ -241,15 +235,14 @@
                       </div>
                       </br>
                     </form>
-                    <!--New User Form-->
-
+                    <!--/New User Form-->
 
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        <!--Admin Panel-->
+        <!--/Admin Panel-->
 
         <!--User Panel-->
           <div class="tab-pane show" role="tabpanel" id="userpanel" aria-labelledby="user">
@@ -262,40 +255,41 @@
                     <header class="px-2 py-1 " style="background-color: #F8F9FA; box-shadow: 0px 0px 0px 1px #D8D8D8 inset;
                       border-top-left-radius: 4px; border-top-right-radius: 4px"><h1 style="font-size: 20px; padding-top: 5px">About user</h1></header>
                     <div class="container-fluid" style="padding: 20px; background-color: white; box-shadow: 0px 0px 0px 1px #D8D8D8 inset">
-                      <table class="table table-striped" style="box-shadow: 0px 1px 0px #D8D8D8 inset;">
-                        <h1 style="font-size: 4px"></h1>
-                        <thead>
-                        <tr>
-                          <th scope="col">ID</th><th scope="col">Login</th><th scope="col">Email</th><th scope="col">Role</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <th:block><tr>
-                          <td th:text="${admin.getId()}">id</td>
-                          <td th:text="${admin.getUsername()}">username</td>
-                          <td th:text="${admin.getEmail()}">email</td>
-                          <td th:text="${admin.getRolesToString()}">role</td>
-                        </tr></th:block>
-                        </tbody>
-                      </table>
-                      </br>
+                      <div class="row justify-content-center">
+                        <div class="col-md-10">
+                          <table class="table table-striped" style="box-shadow: 0px 1px 0px #D8D8D8 inset;">
+                            <h1 style="font-size: 4px"></h1>
+                            <thead>
+                            <tr>
+                              <th scope="col">ID</th><th scope="col">Login</th><th scope="col">Email</th><th scope="col">Role</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block><tr>
+                              <td th:text="${signedUser.getId()}">id</td>
+                              <td th:text="${signedUser.getUsername()}">username</td>
+                              <td th:text="${signedUser.getEmail()}">email</td>
+                              <td th:text="${signedUser.getRolesToString()}">role</td>
+                            </tr></th:block>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
           </div>
-        <!--User Panel-->
+        <!--/User Panel-->
 
-        <!--Admin/User container-->
-
-
-
+        <!--/Admin/User container-->
 
         </div>
       </div>
     </section>
 <!--main-->
 
+<!--DELETE BUTTON SCRIPT-->
 <script>
   $('.button2').click(function () {
     var $modal = $('#deleteModal')
@@ -317,7 +311,10 @@
     $('#deleteConfirm').attr('href', $btn.attr('href'));
   });
 </script>
+<!--/DELETE BUTTON SCRIPT-->
 
+
+<!--EDIT BUTTON SCRIPT-->
 <script>
   $('.button1').on('click',function () {
     var $btn = $(this);
@@ -338,10 +335,7 @@
     }
   });
 </script>
-
-<script>
-
-</script>
+<!--/EDIT BUTTON SCRIPT-->
 
 </body>
 </html>
