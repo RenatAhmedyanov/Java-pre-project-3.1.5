@@ -2,6 +2,7 @@ package ru.kata.spring.boot_security.demo.controllers;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
@@ -9,11 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import java.util.HashSet;
-import java.util.Set;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
-@RequestMapping("/admin")
 public class AdminsController {
     private final UserService userService;
 
@@ -22,7 +24,12 @@ public class AdminsController {
         this.userService = userService;
     }
 
-    @GetMapping
+    @GetMapping("/login")
+    public String loginPage() {
+        return "views/login";
+    }
+
+    @GetMapping("/admin")
     public String adminPage(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User signedUser = (User) authentication.getPrincipal();
@@ -30,8 +37,8 @@ public class AdminsController {
         model.addAttribute("existingRoles", userService.getRolesList());
         model.addAttribute("signedUser", signedUser);
         model.addAttribute("usersList", userService.findAllUsers());
-        model.addAttribute("role_user", userService.findRoleByRoleName("ROLE_USER"));
-        model.addAttribute("role_admin", userService.findRoleByRoleName("ROLE_ADMIN"));
+        model.addAttribute("role_user", userService.findRoleByRoleName("USER"));
+        model.addAttribute("role_admin", userService.findRoleByRoleName("ADMIN"));
         return "/views/admin_panel";
     }
 
@@ -44,7 +51,7 @@ public class AdminsController {
 
     @PostMapping(value = "/new")
     public String addUser(@ModelAttribute("user") User newUser, @RequestParam(value = "roles", required = false) String[] roles) {
-        Set<Role> updatedRoles = new HashSet<>();
+        List<Role> updatedRoles = new ArrayList<>();
         for (String role : roles) {
             updatedRoles.add(userService.findRoleByRoleName(role));
         }
@@ -55,7 +62,7 @@ public class AdminsController {
 
     @PatchMapping("/edit")
     public String update(@ModelAttribute("user") User updatedUser, @RequestParam(value = "roles", required = false) String[] roles) {
-        Set<Role> updatedRoles = new HashSet<>();
+        List<Role> updatedRoles = new ArrayList<>();
         for (String role : roles) {
             updatedRoles.add(userService.findRoleByRoleName(role));
         }
@@ -68,6 +75,18 @@ public class AdminsController {
     public String deleteUser(@PathVariable Integer id) {
         userService.deleteUser(id);
         return "redirect:/admin";
+    }
+
+    @Transactional
+    @PostConstruct
+    public void populateDatabase() {
+        userService.populateDatabase();
+    }
+
+    @Transactional
+    @PreDestroy
+    public void deleteTables() {
+        userService.deleteTables();
     }
 }
 

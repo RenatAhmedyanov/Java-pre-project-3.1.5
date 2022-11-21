@@ -2,15 +2,13 @@ package ru.kata.spring.boot_security.demo.models;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -36,7 +34,7 @@ public class User implements UserDetails {
 
     @ManyToMany(cascade = { CascadeType.PERSIST })
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    private List<Role> roles = new ArrayList<>();
 
     public User() {
 
@@ -82,17 +80,17 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public String getRolesToString(){
-        StringBuilder sb = new StringBuilder();
-        roles.forEach(x -> sb.append(x.toString().replace("ROLE_", "") + ", "));
-        return sb.delete(sb.length() - 2, sb.length()-1).toString();
-    }
+//    public String getRolesToString(){
+//        StringBuilder sb = new StringBuilder();
+//        roles.forEach(x -> sb.append(x.toString().replace("ROLE_", "") + ", "));
+//        return sb.delete(sb.length() - 2, sb.length()-1).toString();
+//    }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 
@@ -123,11 +121,5 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    public ArrayList<Role> allRoles(){
-        ArrayList<Role> al = new ArrayList<>();
-        al.addAll(roles);
-        return al;
     }
 }

@@ -21,7 +21,7 @@ public class UsersController {
     }
 
     @GetMapping
-    public String adminPage(Model model) {
+    public String userPage(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User signedUser = (User) authentication.getPrincipal();
         model.addAttribute("user", new User());

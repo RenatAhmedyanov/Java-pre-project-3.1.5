@@ -27,16 +27,16 @@ public class  WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/authentication/login", "/error", "/authentication/registration").permitAll()
-                .anyRequest().hasAnyRole("USER", "ADMIN")
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/login", "/error").permitAll()
+                .anyRequest().hasAnyAuthority("USER", "ADMIN")
                 .and().formLogin()
-                .loginPage("/authentication/login")
+                .loginPage("/login")
                 .loginProcessingUrl("/process_login")
                 .successHandler(successUserHandler)
                 .and().logout()
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/authentication/login");
+                .logoutSuccessUrl("/login");
     }
 
     @Bean

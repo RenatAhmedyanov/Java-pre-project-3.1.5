@@ -9,9 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.dao.UserDAO;
 import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
-
-import javax.annotation.PostConstruct;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -38,7 +38,6 @@ public class UserServiceImplementation implements UserService {
     @Transactional
     public void addUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.addRoles(userDAO.findRoleByRoleName("ROLE_USER"));
         userDAO.addUser(user);
     }
 
@@ -53,17 +52,11 @@ public class UserServiceImplementation implements UserService {
         users.add(new User("Marge", "marge@mail.ru", passwordEncoder.encode("marge")));
         users.add(new User("Bart", "bart@mail.ru", passwordEncoder.encode("bart")));
         users.add(new User("Lisa", "lisa@mail.ru", passwordEncoder.encode("lisa")));
-        users.forEach(x -> x.addRoles(userDAO.findRoleByRoleName("ROLE_USER")));
-        users.get(0).addRoles(userDAO.findRoleByRoleName("ROLE_ADMIN"));
-        users.get(2).addRoles(userDAO.findRoleByRoleName("ROLE_ADMIN"));
-        users.get(3).addRoles(userDAO.findRoleByRoleName("ROLE_ADMIN"));
+        users.forEach(x -> x.addRoles(userDAO.findRoleByRoleName("USER")));
+        users.get(0).addRoles(userDAO.findRoleByRoleName("ADMIN"));
+        users.get(2).addRoles(userDAO.findRoleByRoleName("ADMIN"));
+        users.get(3).addRoles(userDAO.findRoleByRoleName("ADMIN"));
         users.forEach(userDAO::addUser);
-    }
-
-    @Transactional
-    public void giveAdminRights(User user) {
-        user.addRoles(userDAO.findRoleByRoleName("ROLE_ADMIN"));
-        userDAO.updateUser(user);
     }
 
     public User findUserById(Integer id) {

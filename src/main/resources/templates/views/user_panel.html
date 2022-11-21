@@ -17,7 +17,10 @@
       <div class="px-3 py-2 col-md-6">
         <strong class="align-content-center" style="background-color: transparent; color: rgb(251,251,251); font-size: 22px" th:text="${signedUser.getEmail()}"></strong>
         <span class="align-content-center" style="background-color: transparent; color: rgb(251,251,251); font-size: 22px">with roles: </span>
-        <span class="align-content-center" style="background-color: transparent; color: rgb(251,251,251); font-size: 22px" th:text="${signedUser.getRolesToString()}"></span>
+        <th:block th:each="role:${signedUser.getRoles()}">
+          <span style="background-color: transparent; color: rgb(251,251,251); font-size: 22px" th:text="${role}"></span>
+          <span> </span>
+        </th:block>
       </div>
       <form class="col-md-1" th:action="@{/logout}" th:method = "POST">
         <input type = "submit" class="d-xl-flex p-2 justify-content-end" style="border: transparent; background-color: transparent; font-size: 20px; color: rgb(154,149,135);" value = "Logout" />
@@ -71,7 +74,7 @@
                         <td th:text="${signedUser.getId()}">id</td>
                         <td th:text="${signedUser.getUsername()}">username</td>
                         <td th:text="${signedUser.getEmail()}">email</td>
-                        <td th:text="${signedUser.getRolesToString()}">role</td>
+                        <td><th:block th:each="role:${signedUser.getRoles()}"><span th:text="${role}"></span><span> </span></th:block></td>
                       </tr></th:block>
                       </tbody>
                     </table>

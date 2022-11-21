@@ -3,7 +3,6 @@ package ru.kata.spring.boot_security.demo.dao;
 import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
-
 import javax.persistence.*;
 import java.util.List;
 import java.util.Optional;
@@ -62,10 +61,10 @@ public class UserDAOImplementation implements UserDAO {
     }
 
     public void createAdminRole() {
-        entityManager.persist(new Role("ROLE_ADMIN"));
+        entityManager.persist(new Role("ADMIN"));
     }
 
     public void createUserRole() {
-        entityManager.persist(new Role("ROLE_USER"));
+        entityManager.persist(new Role("USER"));
     }
 }
