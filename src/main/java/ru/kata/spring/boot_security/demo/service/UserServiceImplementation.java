@@ -1,16 +1,19 @@
 package ru.kata.spring.boot_security.demo.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.dao.UserDAO;
 import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Transactional(readOnly = true)
@@ -24,16 +27,41 @@ public class UserServiceImplementation implements UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Override
+    public Role findRoleByRoleName(String roleName) {
+        return userDAO.findRoleByRoleName(roleName);
+    }
+
+    @Override
+    public List<Role> getRolesList() {
+        return userDAO.getRolesList();
+    }
+
     @Transactional
     public void addUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.addRoles(Role.ROLE_USER);
+        user.addRoles(userDAO.findRoleByRoleName("ROLE_USER"));
         userDAO.addUser(user);
     }
 
     @Transactional
+    public void firstInit(){
+        User admin = new User("admin", "admin@mail.ru", "admin");
+        admin.addRoles(new Role("ROLE_ADMIN"));
+        admin.addRoles(new Role("ROLE_USER"));
+        userDAO.addUser(admin);
+    }
+
+    @Transactional
     public void giveAdminRights(User user) {
-        user.addRoles(Role.ROLE_ADMIN);
+        user.addRoles(userDAO.findRoleByRoleName("ROLE_ADMIN"));
+        userDAO.updateUser(user);
+    }
+
+    @Transactional
+    public void revokeAdminRights(User user) {
+        user.setRoles(new HashSet<>());
+        user.addRoles(userDAO.findRoleByRoleName("ROLE_USER"));
         userDAO.updateUser(user);
     }
 
@@ -56,7 +84,11 @@ public class UserServiceImplementation implements UserService {
 
     @Transactional
     public void updateUser(User updatedUser) {
-        updatedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+        if (updatedUser.getPassword().equals(userDAO.findUserById(updatedUser.getId()).getPassword()) || updatedUser.getPassword().equals("")) {
+            updatedUser.setPassword(userDAO.findUserById(updatedUser.getId()).getPassword());
+        } else {
+            updatedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+        }
         userDAO.updateUser(updatedUser);
     }
 

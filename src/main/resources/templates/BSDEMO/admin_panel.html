@@ -89,12 +89,12 @@
                         </thead>
                         <tbody>
                           <th:block th:each="user : ${usersList}"><tr>
-                            <td th:text="${user.getId()}">id</td>
+                            <td th:text="*{user.getId()}">id</td>
                             <td th:text="${user.getUsername()}">username</td>
                             <td th:text="${user.getEmail()}">email</td>
                             <td th:text="${user.getRoles()}">role</td>
-                            <td><button th:href = "@{/admin/get/{id}(id = ${user.getId()})}" class="button button1" th:data-id="${user.getId()}" th:data-username="${user.getUsername()}" th:data-email="${user.getEmail()}" th:data-password="${user.getPassword()}" th:data-roles="${user.getRoles()}" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button></td>
-                            <td><button th:href="@{/admin/delete/(id=${user.getId()})}" class="button button2" th:data-id="${user.getId()}" th:data-username="${user.getUsername()}" th:data-email="${user.getEmail()}" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button></td>
+                            <td><button th:href="@{/admin/get/{id}(id=${user.getId()})}" class="button button1" th:data-id="${user.getId()}" th:data-username="${user.getUsername()}" th:data-email="${user.getEmail()}" th:data-roles="${user.getRoles()}" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button></td>
+                            <td><button th:href="@{/admin/delete/{id}(id=${user.getId()})}"  class="button button2" th:data-id="${user.getId()}" th:data-username="${user.getUsername()}" th:data-email="${user.getEmail()}" th:data-roles="${user.getRoles()}" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button></td>
                           </tr></th:block>
                         </tbody>
                       </table>
@@ -103,7 +103,9 @@
 
                       <!-- Edit User Modal -->
                       <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-                        <form class="container" th:action="@{/admin/update}" th:method="PATCH" th:object="${user}" style="width: 400px">
+                        <form class="container" th:method = "PATCH"
+                              th:action = "@{/admin/edit}"
+                              th:object="${user}" style="width: 400px">
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
@@ -133,31 +135,14 @@
                                   <label class="d-flex justify-content-center" for="passwordE" style="font-weight: bold">Password</label>
                                   <input type="password" class="form-control" id="passwordE" name="password" placeholder="password">
                                 </div>
-<!--                                </br>-->
-<!--                                <div class="form-group">-->
-<!--                                  <input type="hidden" class="form-control" id="roleE" name="roles" style="height: 60px"/>-->
-<!--                                </div>-->
                                 </br>
-                                <div class="form-group mt-3">
-                                  <label class="d-flex justify-content-center" for="roleE" style="font-weight: bold">Role</label>
-                                  <div class="form-check" th:object="${user.getRoles()}">
-                                    <select multiple class="form-control" id="roleE" name="roles" style="height: 60px">-->
-                                      <option value="ROLE_USER">USER</option>
-                                      <option value="ROLE_ADMIN" th:action="@{/admin/{id}/admin(id = ${user.getId()})}" th:method="PATCH" th:object="${user}">ADMIN</option>
-                                    </select>
-                                  </div>
-                                </div>
-
-
-<!--                                </br>-->
-<!--                                <div class="form-group">-->
-<!--                                  <label class="d-flex justify-content-center" for="roleE" style="font-weight: bold">Role</label>-->
-<!--                                  <select multiple class="form-control" id="roleE" name="roles" style="height: 60px">-->
-<!--                                    <option value="ROLE_USER">USER</option>-->
-<!--                                    <option value="ROLE_ADMIN">ADMIN</option>-->
-<!--                                  </select>-->
-<!--                                </div>-->
-
+                              <div class="form-group">
+                                <label class="d-flex justify-content-center" for="roleE" style="font-weight: bold">Role</label>
+                                <select multiple="multiple" th:name="roles" class="form-control" id="roleE" style="height: 60px;">
+                                  <option id="selectUserE" th:value="${role_user}">USER</option>
+                                  <option id="selectAdminE" th:value="${role_admin}">ADMIN</option>
+                                </select>
+                              </div>
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -199,9 +184,9 @@
                                 </br>
                                 <div class="form-group">
                                   <label class="d-flex justify-content-center" for="roleD" style="font-weight: bold">Role</label>
-                                  <select multiple class="form-control" id="roleD" style="height: 60px; color: #636E7A; background-color: #E9ECEF" readonly>
-                                    <option>USER</option>
-                                    <option>ADMIN</option>
+                                  <select multiple class="form-control" id="roleD" disabled="disabled" style="height: 60px; color: #636E7A; background-color: #E9ECEF">
+                                    <option id="selectUser">USER</option>
+                                    <option id="selectAdmin">ADMIN</option>
                                   </select>
                                 </div>
                               </form>
@@ -268,7 +253,6 @@
         <!--Admin Panel-->
 
         <!--User Panel-->
-
           <div class="tab-pane show" role="tabpanel" id="userpanel" aria-labelledby="user">
               <div class="container-fluid" style="background-color: transparent">
                 <div class="row justify-content-start" style="background-color: transparent; height: 100px;">
@@ -301,6 +285,7 @@
                 </div>
               </div>
           </div>
+        <!--User Panel-->
 
         <!--Admin/User container-->
 
@@ -313,12 +298,24 @@
 <!--main-->
 
 <script>
-  $('.button2').click(function () {
+  $('.button2').click(function (event) {
+    event.preventDefault();
     var $modal = $('#deleteModal')
     var $btn = $(this);
     $('#idD').val($btn.attr('data-id'));
     $('#usernameD').val($btn.attr('data-username'));
     $('#emailD').val($btn.attr('data-email'));
+    var roles = $btn.attr('data-roles');
+    if (roles.includes("ROLE_USER")) {
+      $('#selectUser').attr('selected', "selected")
+    } else {
+      $('#selectUser').attr('selected', false)
+    }
+    if (roles.includes("ROLE_ADMIN")) {
+      $('#selectAdmin').attr('selected', "selected");
+    } else {
+      $('#selectAdmin').attr('selected', false)
+    }
     $('#deleteConfirm').attr('href', $btn.attr('href'));
   })
 </script>
@@ -327,15 +324,21 @@
   $('.button1').on('click',function () {
     var $btn = $(this);
     var href = $btn.attr('href');
-    var user = $btn.attr('data-user')
-      $.get(href, function (user){
-        $('#idE').val(user.id);
-        $('#usernameE').val(user.username);
-        $('#emailE').val(user.email);
-        $('#passwordE').val(user.password);
-        $('#roleE').val(user.roles);
-      });
-    $('#editModal').modal('show');
+    $('#idE').val($btn.attr('data-id'));
+    $('#usernameE').val($btn.attr('data-username'));
+    $('#emailE').val($btn.attr('data-email'));
+    var roles = $btn.attr('data-roles');
+    if (roles.includes("ROLE_USER")) {
+      $('#selectUserE').attr('selected', "selected")
+    } else {
+      $('#selectUserE').attr('selected', false)
+    }
+    if (roles.includes("ROLE_ADMIN")) {
+      $('#selectAdminE').attr('selected', "selected");
+    } else {
+      $('#selectAdminE').attr('selected', false)
+    }
+    $('#editConfirm').attr('href', $btn.attr('action'));
   });
 </script>
 

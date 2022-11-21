@@ -2,13 +2,15 @@ package ru.kata.spring.boot_security.demo.models;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -32,10 +34,9 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @ElementCollection(targetClass = Role.class)
-    @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
-    private List<Role> roles = new ArrayList<>();
+    @ManyToMany(cascade = { CascadeType.PERSIST }, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     public User() {
 
@@ -81,21 +82,11 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public List<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-//    public String getRoles() {
-//        if (roles.contains(Role.ROLE_ADMIN)) {
-//            return "ADMIN USER";
-//        } else if (roles.contains(Role.ROLE_USER)) {
-//            return "USER";
-//        } else {
-//            return "GUEST";
-//        }
-//    }
-
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
@@ -128,14 +119,9 @@ public class User implements UserDetails {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", roles=" + roles +
-                '}';
+    public ArrayList<Role> allRoles(){
+        ArrayList<Role> al = new ArrayList<>();
+        al.addAll(roles);
+        return al;
     }
 }

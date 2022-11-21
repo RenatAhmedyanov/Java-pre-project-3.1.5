@@ -2,6 +2,7 @@ package ru.kata.spring.boot_security.demo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -46,9 +47,10 @@ public class AuthenticationController {
         return "redirect:/authentication/login";
     }
 
+//    @Transactional
 //    @PostConstruct
 //    public void loadUserTableTest() {
-//        userService.addUser(new User("admin", "admin@mail.ru", "admin"));
+//        userService.firstInit();
 //        userService.addUser(new User("Homer", "homer@mail.ru", "homer"));
 //        userService.addUser(new User("Marge", "marge@mail.ru", "marge"));
 //
@@ -56,7 +58,6 @@ public class AuthenticationController {
 //        userService.addUser(new User("Bart", "bart@mail.ru", "bart"));
 //        userService.addUser(new User("Lisa", "lisa@mail.ru", "lisa"));
 //
-//        userService.giveAdminRights((User)userService.loadUserByUsername("admin"));
 //        userService.giveAdminRights((User)userService.loadUserByUsername("Homer"));
 //        userService.giveAdminRights((User)userService.loadUserByUsername("Marge"));
 //    }
