@@ -92,7 +92,7 @@
                             <td th:text="*{user.getId()}">id</td>
                             <td th:text="${user.getUsername()}">username</td>
                             <td th:text="${user.getEmail()}">email</td>
-                            <td th:text="${user.getRoles()}">role</td>
+                            <td th:text="${user.getRolesToString()}">role</td>
                             <td><button th:href="@{/admin/get/{id}(id=${user.getId()})}" class="button button1" th:data-id="${user.getId()}" th:data-username="${user.getUsername()}" th:data-email="${user.getEmail()}" th:data-roles="${user.getRoles()}" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button></td>
                             <td><button th:href="@{/admin/delete/{id}(id=${user.getId()})}"  class="button button2" th:data-id="${user.getId()}" th:data-username="${user.getUsername()}" th:data-email="${user.getEmail()}" th:data-roles="${user.getRoles()}" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button></td>
                           </tr></th:block>
