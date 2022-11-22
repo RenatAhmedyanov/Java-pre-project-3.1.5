@@ -12,8 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 public class AdminsController {
@@ -51,7 +51,7 @@ public class AdminsController {
 
     @PostMapping(value = "/new")
     public String addUser(@ModelAttribute("user") User newUser, @RequestParam(value = "roles", required = false) String[] roles) {
-        List<Role> updatedRoles = new ArrayList<>();
+        Set<Role> updatedRoles = new HashSet<>();
         for (String role : roles) {
             updatedRoles.add(userService.findRoleByRoleName(role));
         }
@@ -62,7 +62,7 @@ public class AdminsController {
 
     @PatchMapping("/edit")
     public String update(@ModelAttribute("user") User updatedUser, @RequestParam(value = "roles", required = false) String[] roles) {
-        List<Role> updatedRoles = new ArrayList<>();
+        Set<Role> updatedRoles = new HashSet<>();
         for (String role : roles) {
             updatedRoles.add(userService.findRoleByRoleName(role));
         }
