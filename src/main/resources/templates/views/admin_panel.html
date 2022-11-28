@@ -135,7 +135,7 @@
                               </br>
                               <div class="form-group">
                                 <label class="d-flex justify-content-center" for="roleE" style="font-weight: bold">Role</label>
-                                <select multiple="multiple" th:name="roles" class="form-control" id="roleE" style="height: 60px;">
+                                <select multiple="multiple" th:name="updated-roles" class="form-control" id="roleE" style="height: 60px;">
                                   <option id="selectUserE" th:value="${role_user}">USER</option>
                                   <option id="selectAdminE" th:value="${role_admin}">ADMIN</option>
                                 </select>
@@ -227,7 +227,7 @@
                       </br>
                       <div class="form-group">
                         <label class="d-flex justify-content-center" for="roleN" style="font-weight: bold">Role</label>
-                        <select multiple="multiple" th:name="roles" class="form-control" id="roleN" style="height: 60px;" required>
+                        <select multiple="multiple" th:name="new-roles" class="form-control" id="roleN" style="height: 60px;" required>
                           <option th:value="${role_user}">USER</option>
                           <option th:value="${role_admin}">ADMIN</option>
                         </select>

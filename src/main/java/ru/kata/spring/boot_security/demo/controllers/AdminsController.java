@@ -50,7 +50,7 @@ public class AdminsController {
     }
 
     @PostMapping(value = "/new")
-    public String addUser(@ModelAttribute("user") User newUser, @RequestParam(value = "roles", required = false) String[] roles) {
+    public String addUser(@ModelAttribute("user") User newUser, @RequestParam(value = "new-roles", required = false) String[] roles) {
         Set<Role> updatedRoles = new HashSet<>();
         for (String role : roles) {
             updatedRoles.add(userService.findRoleByRoleName(role));
@@ -61,7 +61,7 @@ public class AdminsController {
     }
 
     @PatchMapping("/edit")
-    public String update(@ModelAttribute("user") User updatedUser, @RequestParam(value = "roles", required = false) String[] roles) {
+    public String update(@ModelAttribute("user") User updatedUser, @RequestParam(value = "updated-roles", required = false) String[] roles) {
         Set<Role> updatedRoles = new HashSet<>();
         for (String role : roles) {
             updatedRoles.add(userService.findRoleByRoleName(role));
