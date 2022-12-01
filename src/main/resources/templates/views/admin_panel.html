@@ -9,7 +9,6 @@
   <link type="text/css" rel="stylesheet" href="style.css"/>
 </head>
 <body>
-
 <!--heading-->
   <section id="intro">
     <div class="container-fluid" style="background-color: #343A40">
@@ -256,14 +255,7 @@
                               <th scope="col">ID</th><th scope="col">Login</th><th scope="col">Email</th><th scope="col">Role</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <th:block><tr>
-                              <td th:text="${signedUser.getId()}">id</td>
-                              <td th:text="${signedUser.getUsername()}">username</td>
-                              <td th:text="${signedUser.getEmail()}">email</td>
-                              <td><th:block th:each="role:${signedUser.getRoles()}"><span th:text="${role}">role</span><span> </span></th:block></td>
-                            </tr></th:block>
-                            </tbody>
+                            <tbody id="userInfo"></tbody>
                           </table>
                         </div>
                       </div>

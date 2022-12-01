@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
+
+import java.security.Principal;
 import java.util.List;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("/api")
 public class AdminRESTController {
@@ -51,5 +53,12 @@ public class AdminRESTController {
     public ResponseEntity<?> addNewUser(@RequestBody User user) {
         userService.addUser(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<User> getUser(Principal principal){
+        System.out.println(principal);
+        User user = (User)userService.loadUserByUsername(principal.getName());
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }

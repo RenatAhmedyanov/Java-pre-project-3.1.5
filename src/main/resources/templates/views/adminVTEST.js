@@ -21,8 +21,8 @@ function formUsersTable(users) {
         user.roles.forEach(role => {
             result += `<span>${role.roleName} </span>`
         });
-        result += `<td><button class="button button1" onclick="editButton(${user.id})" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button></td>
-                   <td><button class="button button2" onclick="deleteButton(${user.id})" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button></td>`
+        result += `</td><td><button class="button button1" onclick="editButton(${user.id})" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button></td>
+                   <td><button class="button button2" onclick="deleteButton(${user.id})" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button></td></tr>`
     });
     return result;
 }
@@ -113,6 +113,7 @@ function deleteUser(id) {
 
 
 ////NEW USER FORM
+//по ивенту submit пользователя для передачи в POST метод
 let newUserForm = document.getElementById("newUserForm")
 newUserForm.addEventListener("submit",  async (addNewUser) => {
     let newFormData = new FormData(newUserForm);
@@ -138,4 +139,20 @@ function addUser(newUser) {
     console.log(newUser.id);
     document.getElementById("users-list").innerHTML = formUsersTable(users);
 }
+
+
+////
+let userURL = "http://localhost:8080/api/user";
+document.getElementById("user-panel").addEventListener("click", (show => {
+    fetch(userURL).then(res => res.json()).then(data => document.getElementById("userInfo").innerHTML = formUserInfoTable(data));
+    function formUserInfoTable(user) {
+        let result = " ";
+        result = `<tr><td>${user.id}</td><td>${user.username}</td><td>${user.email}</td><td>`;
+        user.roles.forEach(role => {
+            result += `<span>${role.roleName} </span>`
+        });
+        result += `</td></tr>`;
+        return result;
+    }
+}))
 
