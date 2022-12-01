@@ -92,68 +92,66 @@
                       <!-- Edit User Modal -->
                       <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
                         <form id="editForm" class="container" style="width: 400px">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="editModalLabel">Edit user</h5>
-                              <button type="button" class="close btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true"></span>
-                              </button>
-                            </div>
-                            <div class="modal-body">
-                              </br>
-                              <div class="form-group">
-                                <label class="d-flex justify-content-center" for="idE" style="font-weight: bold;">ID</label>
-                                <input type="text" readonly class="form-control" id="idE" name="id" style="background-color: #E9ECEF">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel">Edit user</h5>
+                                <button type="button" class="close btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true"></span>
+                                </button>
                               </div>
-                              </br>
-                              <div class="form-group">
-                                <label class="d-flex justify-content-center" for="usernameE" style="font-weight: bold">Username</label>
-                                <input type="text" class="form-control" id="usernameE" name="username">
+                              <div class="modal-body">
+                                </br>
+                                <div class="form-group">
+                                  <label class="d-flex justify-content-center" for="idE" style="font-weight: bold;">ID</label>
+                                  <input type="text" readonly class="form-control" id="idE" name="id" style="background-color: #E9ECEF">
+                                </div>
+                                </br>
+                                <div class="form-group">
+                                  <label class="d-flex justify-content-center" for="usernameE" style="font-weight: bold">Username</label>
+                                  <input type="text" class="form-control" id="usernameE" name="username">
+                                </div>
+                                </br>
+                                <div class="form-group">
+                                  <label class="d-flex justify-content-center" for="emailE" style="font-weight: bold">Email</label>
+                                  <input type="email" class="form-control" id="emailE" name="email">
+                                </div>
+                                </br>
+                                <div class="form-group">
+                                  <label class="d-flex justify-content-center" for="passwordE" style="font-weight: bold">Password</label>
+                                  <input type="password" class="form-control" id="passwordE" name="password" placeholder="password">
+                                </div>
+                                </br>
+                                <div class="form-group">
+                                  <label class="d-flex justify-content-center" for="roleE" style="font-weight: bold">Role</label>
+                                  <select multiple="multiple" name="updated-roles" class="form-control" id="roleE" style="height: 60px;">
+                                    <option id="selectUserE" value="USER">USER</option>
+                                    <option id="selectAdminE" value="ADMIN">ADMIN</option>
+                                  </select>
+                                </div>
                               </div>
-                              </br>
-                              <div class="form-group">
-                                <label class="d-flex justify-content-center" for="emailE" style="font-weight: bold">Email</label>
-                                <input type="email" class="form-control" id="emailE" name="email">
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" id="submitButton" class="btn btn-primary">Edit</button>
                               </div>
-                              </br>
-                              <div class="form-group">
-                                <label class="d-flex justify-content-center" for="passwordE" style="font-weight: bold">Password</label>
-                                <input type="password" class="form-control" id="passwordE" name="password" placeholder="password">
-                              </div>
-                              </br>
-                              <div class="form-group">
-                                <label class="d-flex justify-content-center" for="roleE" style="font-weight: bold">Role</label>
-                                <select multiple="multiple" name="updated-roles" class="form-control" id="roleE" style="height: 60px;">
-                                  <option id="selectUserE" value="USER">USER</option>
-                                  <option id="selectAdminE" value="ADMIN">ADMIN</option>
-<!--                                  <option id="selectUserE" th:value="${role_user}">USER</option>-->
-<!--                                  <option id="selectAdminE" th:value="${role_admin}">ADMIN</option>-->
-                                </select>
-                              </div>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                              <button type="submit" id="submitButton" class="btn btn-primary">Edit</button>
                             </div>
                           </div>
-                        </div>
                         </form>
                       </div>
                       <!-- /Edit User Modal -->
 
                       <!-- Delete User Modal -->
                       <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="deleteModalLabel">Delete user</h5>
-                              <button type="button" class="close btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true"></span>
-                              </button>
-                            </div>
-                            <div class="modal-body">
-                              <form class="container" style="width: 400px">
+                        <form id="deleteForm" class="container" style="width: 400px">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="deleteModalLabel">Delete user</h5>
+                                <button type="button" class="close btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true"></span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
                                 </br>
                                 <div class="form-group">
                                   <label class="d-flex justify-content-center" for="idD" style="font-weight: bold;">ID</label>
@@ -177,14 +175,14 @@
                                     <option id="selectAdminD">ADMIN</option>
                                   </select>
                                 </div>
-                              </form>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                              <a href="" id="deleteConfirm" class="btn button2">Delete</a>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn button2">Delete</button>
+                              </div>
                             </div>
                           </div>
-                        </div>
+                        </form>
                       </div>
                       <!-- /Delete User Modal -->
 

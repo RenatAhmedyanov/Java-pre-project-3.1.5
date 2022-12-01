@@ -84,7 +84,9 @@ function updateUsers(updatedUser) {
 
 
 ////DELETE FORM
+let deleteUserId;
 async function deleteButton(userId) {
+    deleteUserId = userId;
     let deleteURL = URL + "/" + userId;
     let user = await fetch(deleteURL).then(res => res.json());
     $('#idD').val(user.id);
@@ -100,6 +102,16 @@ async function deleteButton(userId) {
             $("#selectAdminD").attr("selected", "selected");
         }
     });
+}
+
+let deleteForm = document.getElementById("deleteForm")
+deleteForm.addEventListener("submit", (deleteUser) => {
+    fetch(URL + "/" + deleteUserId, {method: 'DELETE'}).then(deletedUserId => deleteUsers(deletedUserId));
+})
+
+function deleteUsers(id) {
+    users = users.filter(x => x.id !== id);
+    document.getElementById("users-list").innerHTML = formUsersTable(users);
 }
 //DELETE BUTTON SCRIPT
 
