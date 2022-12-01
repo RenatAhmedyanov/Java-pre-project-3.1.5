@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table id="root">
+
+</table>
+getResponse();
+<script>
+    const url = "http://localhost:8080/api/index"
+    // const info = document.querySelector('#users-list')
+    // const tabTrigger = new bootstrap.Tab(document.getElementById('nav-home-tab'))
+
+    fetch(url).then(res => res.json()).then(data => document.getElementById("root").innerHTML = fillUsersTable(data))
+        function fillUsersTable(fetchedUsers) {
+            let result = ' ';
+            fetchedUsers.forEach(user => {
+                result += `
+              <table>
+              <tr>
+                    <td>${user.id}</td>
+                    <td>${user.username}</td>
+                    <td>${user.email}</td>`
+            user.roles.forEach(role => {
+                    result += `<td>${role.roleName} </td>`
+                })
+            })
+            result += `</tr></table>`
+            return result;
+        }
+</script>
+</body>
+</html>
