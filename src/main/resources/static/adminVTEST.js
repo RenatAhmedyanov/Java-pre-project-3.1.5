@@ -56,8 +56,9 @@ async function editButton(userId) {
 }
 
 //по ивенту submit получим данные из формы, добавим роли, сформируем объект user, сконвертируем его в JSON, отправим PUT запрос
+let editForm = document.getElementById("editForm");
 editForm.addEventListener("submit", (editUser) => {
-    const editFormData = new FormData(document.getElementById("editForm"));
+    const editFormData = new FormData(editForm);
     let updatedUser = {roles: []};
     editFormData.forEach(function(value, key) {
         updatedUser[key] = value;
@@ -76,9 +77,9 @@ editForm.addEventListener("submit", (editUser) => {
 
 //обновим массив users и таблицу, что бы не перезагружать страницу после редактирования пользователя
 function updateUsers(updatedUser) {
-    let toBeUpdatedUserIndex = users.findIndex(x => x.id === updateUser.id);
+    let toBeUpdatedUserIndex = users.findIndex(x => x.id === updatedUser.id);
     users[toBeUpdatedUserIndex] = updatedUser;
-    formUsersTable(users);
+    document.getElementById("users-list").innerHTML = formUsersTable(users);
 }
 
 
@@ -89,13 +90,14 @@ async function deleteButton(userId) {
     $('#idD').val(user.id);
     $('#usernameD').val(user.username);
     $('#emailD').val(user.email);
-    $("#selectUserE").attr("selected", false);
-    $("#selectAdminE").attr("selected", false);
+    $("#selectUserD").attr("selected", false);
+    $("#selectAdminD").attr("selected", false);
+    let roles = user.roles;
     roles.forEach(role => {
         if (role.roleName.includes("USER")) {
-            $("#selectUserE").attr("selected", "selected")
+            $("#selectUserD").attr("selected", "selected")
         } else if (role.roleName.includes("ADMIN")) {
-            $("#selectAdminE").attr("selected", "selected");
+            $("#selectAdminD").attr("selected", "selected");
         }
     });
 }

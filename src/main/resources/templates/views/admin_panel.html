@@ -172,9 +172,9 @@
                                 </br>
                                 <div class="form-group">
                                   <label class="d-flex justify-content-center" for="roleD" style="font-weight: bold">Role</label>
-                                  <select multiple class="form-control" id="roleD" disabled="disabled" style="height: 60px; color: #636E7A; background-color: #E9ECEF">
-                                    <option id="selectUser">USER</option>
-                                    <option id="selectAdmin">ADMIN</option>
+                                  <select multiple class="form-control" id="roleD"  style="height: 60px; color: #636E7A; background-color: #E9ECEF">
+                                    <option id="selectUserD">USER</option>
+                                    <option id="selectAdminD">ADMIN</option>
                                   </select>
                                 </div>
                               </form>
@@ -285,29 +285,6 @@
     </section>
 <!--main-->
 
-DELETE BUTTON SCRIPT
-<script>
-  $('.button2').click(function () {
-    var $modal = $('#deleteModal')
-    var $btn = $(this);
-    $('#idD').val($btn.attr('data-id'));
-    $('#usernameD').val($btn.attr('data-username'));
-    $('#emailD').val($btn.attr('data-email'));
-    var roles = $btn.attr('data-roles');
-    if (roles.includes("USER")) {
-      $('#selectUser').attr('selected', "selected")
-    } else {
-      $('#selectUser').attr('selected', false)
-    }
-    if (roles.includes("ADMIN")) {
-      $('#selectAdmin').attr('selected', "selected");
-    } else {
-      $('#selectAdmin').attr('selected', false)
-    }
-    $('#deleteConfirm').attr('href', $btn.attr('href'));
-  });
-</script>
-/DELETE BUTTON SCRIPT
 
 <script type="text/javascript" src="adminVTEST.js" th:src="@{/adminVTEST.js}"></script>
 
