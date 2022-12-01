@@ -194,33 +194,31 @@
                     </div>
 
                     <!--New User Form-->
-                    <form class="container need-validation" th:method="POST" th:action="@{/new}" th:object="${user}" style="width: 400px">
+                    <form class="container need-validation" id="newUserForm" style="width: 400px">
                       </br>
                       <div class="form-group">
                         <label class="d-flex justify-content-center" for="usernameN" style="font-weight: bold">Username</label>
-                        <input type="text" class="form-control" id="usernameN" th:field="*{username}" placeholder="enter username" required>
-                        <div class="invalid-feedback" th:if ="${#fields.hasErrors('username')}" th:errors="*{username}" style="color:red">invalid username</div>
+                        <input type="text" class="form-control" id="usernameN" name="username" placeholder="enter username" required>
+                        <div class="invalid-feedback" style="color:red">invalid username</div>
                       </div>
                       </br>
                       <div class="form-group">
                         <label class="d-flex justify-content-center" for="emailN" style="font-weight: bold">Email</label>
-                        <input type="email" class="form-control" id="emailN" th:field="*{email}" placeholder="enter email" required>
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:red">invalid email</div>
+                        <input type="email" class="form-control" id="emailN" name="email" placeholder="enter email" required>
+                        <div class="invalid-feedback" style="color:red">invalid email</div>
                       </div>
                       </br>
                       <div class="form-group">
                         <label class="d-flex justify-content-center" for="passwordN" style="font-weight: bold">Password</label>
-                        <input type="password" class="form-control" id="passwordN" th:field="*{password}" placeholder="enter password" required>
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color:red">invalid password</div>
+                        <input type="password" class="form-control" id="passwordN" name="password" placeholder="enter password" required>
+                        <div class="invalid-feedback" style="color:red">invalid password</div>
                       </div>
                       </br>
                       <div class="form-group">
                         <label class="d-flex justify-content-center" for="roleN" style="font-weight: bold">Role</label>
-                        <select multiple="multiple" th:name="new-roles" class="form-control" id="roleN" style="height: 60px;" required>
+                        <select multiple="multiple" class="form-control" id="roleN" style="height: 60px;">
                           <option value="USER">USER</option>
                           <option value="ADMIN">ADMIN</option>
-<!--                          <option th:value="${role_user}">USER</option>-->
-<!--                          <option th:value="${role_admin}">ADMIN</option>-->
                         </select>
                       </div>
                       </br>

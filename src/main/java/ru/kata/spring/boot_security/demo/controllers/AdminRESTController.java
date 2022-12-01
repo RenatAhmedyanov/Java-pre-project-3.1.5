@@ -38,12 +38,18 @@ public class AdminRESTController {
     @PutMapping("/index")
     public ResponseEntity<?> updateUser(@RequestBody User user) {
         userService.updateUser(user);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/index/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable("id") Integer id) {
         userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/index")
+    public ResponseEntity<?> addNewUser(@RequestBody User user) {
+        userService.addUser(user);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
