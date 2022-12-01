@@ -7,18 +7,17 @@ import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
-
 import java.security.Principal;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("/api")
-public class AdminRESTController {
+public class RESTController {
     private final UserService userService;
 
     @Autowired
-    public AdminRESTController(UserService userService) {
+    public RESTController(UserService userService) {
         this.userService = userService;
     }
 

@@ -1,4 +1,5 @@
 const URL = "http://localhost:8080/api/index";
+const tabTrigger = new bootstrap.Tab(document.getElementById('users-table'))
 
 //// get-запросом получим и сохраним роли USER и ADMIN в отдельные переменные, для использования в форме редактирования и создания нового пользователя
 fetch(URL + "/roles").then(res => res.json()).then(roles => roles.forEach(role => {
@@ -12,9 +13,8 @@ fetch(URL + "/roles").then(res => res.json()).then(roles => roles.forEach(role =
 
 ////FORMING ALL-USERS TAB
 //сформируем таблицу и сохраним список пользователей в переменную для дальнейшего использования
-let users = [];
-fetch(URL).then(res => res.json()).then(fetchedUsers => document.getElementById("users-list").innerHTML = formUsersTable(fetchedUsers));
-function formUsersTable(users) {
+async function formUsersTable() {
+    let users = await fetch(URL).then(res => res.json());
     let result = " ";
     users.forEach(user => {
         result += `<tr><td>${user.id}</td><td>${user.username}</td><td>${user.email}</td><td>`;
@@ -24,9 +24,10 @@ function formUsersTable(users) {
         result += `</td><td><button class="button button1" onclick="editButton(${user.id})" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button></td>
                    <td><button class="button button2" onclick="deleteButton(${user.id})" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button></td></tr>`
     });
-    return result;
+    document.getElementById("users-list").innerHTML = result;
 }
 
+formUsersTable();
 
 ////EDIT-FORM
 //по клику кнопки edit заполненим форму редактирования пользователя из существующих значений полей
@@ -51,6 +52,7 @@ async function editButton(userId) {
 //по ивенту submit получим данные из формы, добавим роли, сформируем объект user, сконвертируем его в JSON, отправим PUT запрос
 let editForm = document.getElementById("editForm");
 editForm.addEventListener("submit", async (editUser) => {
+    editUser.preventDefault()
     let editFormData = new FormData(editForm);
     let updatedUser = {roles: []};
     editFormData.forEach(function(value, key) {
@@ -64,17 +66,11 @@ editForm.addEventListener("submit", async (editUser) => {
             updatedUser.roles.push(adminRole)
         }
     })
-    let data = await fetch(URL, {method: "PUT", headers: {"Accept": "application/json", "Content-Type": "application/json; charset=UTF-8", "Referer": null}, body: JSON.stringify(updatedUser)});
-    updateUsers(data);
+    const data = await fetch(URL, {method: "PUT", headers: {"Accept": "application/json", "Content-Type": "application/json; charset=UTF-8", "Referer": null}, body: JSON.stringify(updatedUser)}).catch((e) => console.error(e))
+    formUsersTable();
+    tabTrigger.show()
+    $("#editModal").modal("hide");
 });
-
-//обновим массив users и таблицу, что бы не перезагружать страницу после редактирования пользователя
-function updateUsers(updatedUser) {
-    let toBeUpdatedUserIndex = users.findIndex(x => x.id === updatedUser.id);
-    users[toBeUpdatedUserIndex] = updatedUser;
-    console.log(updatedUser.id);
-    document.getElementById("users-list").innerHTML = formUsersTable(users);
-}
 
 
 ////DELETE FORM
@@ -103,19 +99,14 @@ async function deleteButton(userId) {
 let deleteForm = document.getElementById("deleteForm")
 deleteForm.addEventListener("submit", async (removeUser) => {
     await fetch(URL + "/" + deleteUserId, {method: 'DELETE'}).then(deletedUserId => deleteUser(deletedUserId));
+    formUsersTable();
 })
-
-//обновим массив users и таблицу после удаления пользователя
-function deleteUser(id) {
-    users = users.filter(x => x.id !== id);
-    document.getElementById("users-list").innerHTML = formUsersTable(users);
-}
-
 
 ////NEW USER FORM
 //по ивенту submit пользователя для передачи в POST метод
-let newUserForm = document.getElementById("newUserForm")
-newUserForm.addEventListener("submit",  async (addNewUser) => {
+const newUserForm = document.getElementById("newUserForm")
+newUserForm.addEventListener("submit",async (event) => {
+    event.preventDefault();
     let newFormData = new FormData(newUserForm);
     let newUser = {roles: []};
     newFormData.forEach(function(value, key) {
@@ -129,19 +120,15 @@ newUserForm.addEventListener("submit",  async (addNewUser) => {
             newUser.roles.push(window.adminRole)
         }
     })
-    let data = await fetch(URL, {method: "POST", headers: {"Accept": "application/json", "Content-Type": "application/json; charset=UTF-8", "Referer": null}, body: JSON.stringify(newUser)});
-    addUser(data);
+    const data = await fetch(URL, {method: "POST", headers: {"Accept": "application/json", "Content-Type": "application/json; charset=UTF-8", "Referer": null}, body: JSON.stringify(newUser)})
+        .then(() => newUserForm.reset())
+        .catch((e) => console.error(e))
+    formUsersTable();
+    tabTrigger.show()
 });
 
-//обновим массив users и таблицу после добавления пользователя
-function addUser(newUser) {
-    users.push(newUser);
-    console.log(newUser.id);
-    document.getElementById("users-list").innerHTML = formUsersTable(users);
-}
 
-
-////
+//// FORM USER-INFO TAB FOR ADMIN PANEL
 let userURL = "http://localhost:8080/api/user";
 document.getElementById("user-panel").addEventListener("click", (show => {
     fetch(userURL).then(res => res.json()).then(data => document.getElementById("userInfo").innerHTML = formUserInfoTable(data));
