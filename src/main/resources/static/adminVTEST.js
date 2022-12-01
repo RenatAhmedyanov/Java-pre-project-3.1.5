@@ -84,6 +84,7 @@ function updateUsers(updatedUser) {
 
 
 ////DELETE FORM
+//по клику кнопки delete заполненим форму удаления пользователя, сохраним ID пользователя для передачи в DELETE метод
 let deleteUserId;
 async function deleteButton(userId) {
     deleteUserId = userId;
@@ -104,15 +105,19 @@ async function deleteButton(userId) {
     });
 }
 
+//по ивенту submit отправим DELETE запрос
 let deleteForm = document.getElementById("deleteForm")
 deleteForm.addEventListener("submit", (deleteUser) => {
     fetch(URL + "/" + deleteUserId, {method: 'DELETE'}).then(deletedUserId => deleteUsers(deletedUserId));
 })
 
+//обновим массив users и таблицу после удаления пользователя
 function deleteUsers(id) {
     users = users.filter(x => x.id !== id);
     document.getElementById("users-list").innerHTML = formUsersTable(users);
 }
-//DELETE BUTTON SCRIPT
+
+
+////NEW USER FORM
 
 
