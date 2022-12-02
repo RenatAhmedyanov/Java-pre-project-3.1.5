@@ -1,4 +1,5 @@
 const URL = "http://localhost:8080/api/index";
+let userURL = "http://localhost:8080/api/user";
 const tabTrigger = new bootstrap.Tab(document.getElementById('users-table'))
 
 //// get-запросом получим и сохраним роли USER и ADMIN в отдельные переменные, для использования в форме редактирования и создания нового пользователя
@@ -27,7 +28,20 @@ async function formUsersTable() {
     document.getElementById("users-list").innerHTML = result;
 }
 
+formHeader();
 formUsersTable();
+
+////FORM PAGE HEADER
+async function formHeader() {
+    const currentUser = await fetch(userURL).then(res => res.json());
+    document.getElementById("headerEmail").innerHTML = currentUser.email;
+    let roleString = " ";
+    currentUser.roles.forEach(role => {
+        roleString += role.roleName + " ";
+    });
+    document.getElementById("headerRoles").innerHTML = roleString;
+}
+
 
 ////EDIT-FORM
 //по клику кнопки edit заполненим форму редактирования пользователя из существующих значений полей
@@ -129,7 +143,6 @@ newUserForm.addEventListener("submit",async (event) => {
 
 
 //// FORM USER-INFO TAB FOR ADMIN PANEL
-let userURL = "http://localhost:8080/api/user";
 document.getElementById("user-panel").addEventListener("click", (show => {
     fetch(userURL).then(res => res.json()).then(data => document.getElementById("userInfo").innerHTML = formUserInfoTable(data));
     function formUserInfoTable(user) {

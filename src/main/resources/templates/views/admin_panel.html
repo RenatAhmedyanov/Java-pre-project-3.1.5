@@ -14,12 +14,9 @@
     <div class="container-fluid" style="background-color: #343A40">
       <div class="row justify-content-between">
         <div class="px-3 py-2 col-md-6">
-          <strong class="align-content-center" style="background-color: transparent; color: rgb(251,251,251); font-size: 22px" th:text="${signedUser.getEmail()}"></strong>
+          <strong class="align-content-center" style="background-color: transparent; color: rgb(251,251,251); font-size: 22px" id="headerEmail"></strong>
           <span class="align-content-center" style="background-color: transparent; color: rgb(251,251,251); font-size: 22px">with roles: </span>
-          <th:block th:each="role:${signedUser.getRoles()}">
-            <span class="align-content-center" style="background-color: transparent; color: rgb(251,251,251); font-size: 22px" th:text="${role}"></span>
-            <span class="align-content-center" style="background-color: transparent; color: rgb(251,251,251); font-size: 22px"> </span>
-          </th:block>
+          <block id="headerRoles" style="background-color: transparent; color: rgb(251,251,251); font-size: 22px"></block>
         </div>
         <form class="col-md-1" th:action="@{/logout}" th:method = "POST">
           <input type = "submit" class="d-xl-flex p-2 justify-content-end" style="border: transparent; background-color: transparent; font-size: 20px; color: rgb(154,149,135);" value = "Logout" />

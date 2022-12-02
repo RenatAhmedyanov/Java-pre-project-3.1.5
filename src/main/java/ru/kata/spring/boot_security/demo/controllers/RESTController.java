@@ -3,10 +3,14 @@ package ru.kata.spring.boot_security.demo.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.security.Principal;
 import java.util.List;
 
@@ -55,9 +59,21 @@ public class RESTController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<User> getUser(Principal principal){
+    public ResponseEntity<User> getCurrentUser(Principal principal){
         System.out.println(principal);
         User user = (User)userService.loadUserByUsername(principal.getName());
         return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @Transactional
+    @PostConstruct
+    public void populateDatabase() {
+        userService.populateDatabase();
+    }
+
+    @Transactional
+    @PreDestroy
+    public void deleteTables() {
+        userService.deleteTables();
     }
 }

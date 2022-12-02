@@ -1,5 +1,7 @@
 let userURL = "http://localhost:8080/api/user";
 
+formHeader();
+
 fetch(userURL).then(res => res.json()).then(data => document.getElementById("userInfo").innerHTML = formUserInfoTable(data));
 function formUserInfoTable(user) {
     let result = " ";
@@ -9,4 +11,15 @@ function formUserInfoTable(user) {
     });
     result += `</td></tr>`;
     return result;
+}
+
+
+async function formHeader() {
+    const currentUser = await fetch(userURL).then(res => res.json());
+    document.getElementById("headerEmail").innerHTML = currentUser.email;
+    let roleString = " ";
+    currentUser.roles.forEach(role => {
+        roleString += role.roleName + " ";
+    });
+    document.getElementById("headerRoles").innerHTML = roleString;
 }
